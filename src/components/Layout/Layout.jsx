@@ -96,29 +96,31 @@ const Layout = () => {
     setAllState(e.target.checked)
     changeAllSensorState(allState ? "ON" : "OFF").then((data) => {
       toast.success("Change state of all sensors successful!")
+      setSensors(sensors => sensors.map(s => ({...s, state: allState ? "ON" : "OFF"})))
     }).catch((e) => {
       toast.error(e.message)
     })
   }
 
-  const editSensor = () => {
+  const editSensor = async () => {
     let tmp = sensors;
     let i = tmp.findIndex((s) => s.id === active.id)
-    
-    changeSensorName(active.id, editName).then((data) => {
+    try {
+      const data = await changeSensorName(active.id, editName)
+      console.log(active.id);
+      console.log(i);
       tmp[i].name = editName
-    }).catch((e) => {
-      toast.error(e.message)
-    })
-    changeSensorState(active.id, state ? "ON" : "OFF").then((data) => {
+
+      const dete = await changeSensorState(active.id, state ? "ON" : "OFF")
       tmp[i].state = state ? "ON" : "OFF"
-    }).catch((e) => {
+
+      toast.success("Change information successful!")
+      console.log(tmp)
+      setSensors(tmp)
+      setModalEditShow(false)
+    } catch (e) {
       toast.error(e.message)
-    })
-    toast.success("Change information successful!")
-    console.log(tmp)
-    setSensors(tmp)
-    setModalEditShow(false)
+    }   
   }
 
   return (
