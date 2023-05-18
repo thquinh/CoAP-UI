@@ -127,23 +127,24 @@ const Layout = () => {
     <>
       <Navbar bg="light" className="mb-3" fixed='top' >
         <Container fluid>
-          <Navbar.Brand href="#">Humidity</Navbar.Brand>
-          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-xxl`} />
-          <Navbar.Offcanvas
-            id={`offcanvasNavbar-expand-xxl`}
-            aria-labelledby={`offcanvasNavbarLabel-expand-xxl`}
-          >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-xxl`}>
-                Offcanvas
-              </Offcanvas.Title>
-            </Offcanvas.Header>
-            <Offcanvas.Body>
-            </Offcanvas.Body>
-          </Navbar.Offcanvas>
+          <Navbar.Brand href="#" style={{fontSize: "28px"}}>Humidity</Navbar.Brand>
         </Container>
       </Navbar>
-      <div style={{marginTop: "40px"}}>
+      <div style={{display: "flex", marginTop: "50px", justifyContent: "space-between"}}>
+        <div style={{width: "30%", borderRadius: "10px", backgroundColor: " #d1e9fc", textAlign: "center", padding: "15px 0"}}>
+          <p style={{color: "#0c2269", fontSize: "20px", marginBottom: "5px"}}>Max node</p>
+          <h5 style={{color: "#0c2269", fontSize: "25px"}}>12</h5>
+        </div>
+        <div style={{width: "30%", borderRadius: "10px", backgroundColor: "#fff7cc", textAlign: "center", padding: "15px 0"}}>
+          <p style={{color: "#7a4f01", fontSize: "20px", marginBottom: "5px"}}>CPU Usage</p>
+          <h5 style={{color: "#7a4f01", fontSize: "25px"}}>76%</h5>
+        </div>
+        <div style={{width: "30%", borderRadius: "10px", backgroundColor: "#ffe7d9", textAlign: "center", padding: "15px 0"}}>
+          <p style={{color: "#7f1534", fontSize: "20px", marginBottom: "5px"}}>RAM Usage</p>
+          <h5 style={{color: "#7f1534", fontSize: "25px"}}>80%</h5>
+        </div>
+      </div>
+      <div style={{marginTop: "40px", borderRadius: "5px", padding: "15px", backgroundColor: "#fff", boxShadow: "0 0 0 0 #999,  -5px 5px 5px -5px #999"}}>
         <Button style={{ float: "right" }} onClick={() => setModalAddSensorShow(true)}>Add sensor</Button>
         <Button style={{ float: "right", marginRight: "15px" }} onClick={() => setModalChangeDelayShow(true)}>Change delay</Button>
         <Form.Check style={{ float: "right", marginRight: "40px" }}// prettier-ignore
