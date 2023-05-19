@@ -10,6 +10,8 @@ import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import { changeSpeed } from '../../apis/apis';
 import { toast } from 'react-toastify';
+import HiQuang from '../Chart/HiQuang';
+import Test from '../Chart/Test';
 
 const Layout = () => {
   const [sensors, setSensors] = useState([])
@@ -18,6 +20,7 @@ const Layout = () => {
   const [editName, setEditName] = useState("")
   const [state, setState] = useState(true)
   const [allState, setAllState] = useState(false)
+  const [activeId, setActiveId] = useState(0);
 
   const [modalAddSensorShow, setModalAddSensorShow] = useState(false);
   const [modalChangeDelayShow, setModalChangeDelayShow] = useState(false);
@@ -155,8 +158,8 @@ const Layout = () => {
         />
         <br />
         <br />
-        <Accordion flush>
-          {sensors.map((sensor) =>
+        <Accordion flush onSelect={(activeIndex) => {setActiveId(activeIndex)}}>
+          {sensors.map((sensor,i) =>
           <Accordion.Item eventKey={sensor.id} key={sensor.id}>
             <Accordion.Header>{sensor.name}</Accordion.Header>
             <Accordion.Body>
@@ -171,12 +174,16 @@ const Layout = () => {
                 <span>State: {sensor.state}</span><br />
               </div>
               <br />
-              <RealChart></RealChart>
+              {/* <QuangDepTrai id={i}/> */}
+              {sensor.id ===activeId && <HiQuang id={sensor.id} delay={sensor.delay}/>}
+              {/* <HiQuang id={sensor.id} delay={sensor.delay}/> */}
 
             </Accordion.Body>
           </Accordion.Item>
           )}
         </Accordion>
+            <Test />
+
         <Modal
           show={modalAddSensorShow}
           onHide={() => setModalAddSensorShow(false)}
