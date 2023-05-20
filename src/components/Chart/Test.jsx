@@ -38,7 +38,7 @@ const Sensors = ({id, delay, on}) => {
     const [latency, setLatency] = useState(0)
     const [throughput, setThroughput] = useState(0)
 
-    function getNewSeries(sensorData) {
+    function getNewDatas(sensorData) {
         sensorData.name = sensorData.timestamp
         setData(pre => {
             if (pre.length >= 10) return [...pre.slice(1), sensorData]
@@ -48,30 +48,32 @@ const Sensors = ({id, delay, on}) => {
 
     useEffect(() => {
         const eventSource = new EventSource(`http://localhost:9999/api/v1/gateway/${id}/data`)
+        console.log(`${id} connect. State: ${on}`);
         let newData
         eventSource.onmessage = (event) => {
             newData = JSON.parse(event.data)
             
         }
 
-        const inter = setInterval(() => {
-            getNewSeries(newData)
-            console.log(newData);
-            setLatency(newData.latency)
-            setThroughput(newData.throughput)
-        }, delay);
-        console.log(on);
-
-        if(!on) {
-            eventSource.close();
+        eventSource.onerror = (e) => {
+            console.log("Event source err: ", e);
             clearInterval(inter);
-        }
+        };
+
+        const inter = setInterval(() => {
+            if (on) {
+                getNewDatas(newData)
+                console.log(`${id}: ${on} - `, newData);
+                setLatency(newData.latency)
+                setThroughput(newData.throughput)
+            }
+        }, delay);
 
         return () => {
             eventSource.close();
             clearInterval(inter);
         }
-    }, [])
+    },[on])
 
     function CustomizedTick(props) {
         const { x, y, stroke, payload } = props;
@@ -92,7 +94,7 @@ const Sensors = ({id, delay, on}) => {
 
     return (
         <div>
-            <div style={{}}>
+            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end', margin: '0 30px 10px'}}>
                 <div>Latency: {latency}</div>
                 <div>Throughput: {throughput}</div>
             </div>
@@ -103,8 +105,8 @@ const Sensors = ({id, delay, on}) => {
                     <YAxis domain={[0.8, 0.9]} />
                     <Tooltip content={<CustomTooltip />} />
                     <Legend verticalAlign="bottom" height={36} wrapperStyle={{bottom: 0}} />
-                    {/* <Line type="monotone" dataKey="humidity" stroke="#8884d8" activeDot={{ r: 8 }}  /> */}
-                    <Bar dataKey="humidity" fill="#8884d8">
+                    {/* <Line type="monotone" dataKey="humidity" stroke="#5ac0d9" activeDot={{ r: 8 }}  /> */}
+                    <Bar dataKey="humidity" fill="#5ac0d9">
                         <LabelList dataKey="humidity" position="top" />
                     </Bar>
                 </BarChart>
