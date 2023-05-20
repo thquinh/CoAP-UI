@@ -83,3 +83,17 @@ export const deleteSensor = async (id) => {
     const res = await axiosInstance.delete(`/sensors/${id}`);
     return res.data;
 };
+
+export const getMaxNode = async () => {
+    const res = await axiosInstance.get(
+      `/max-node`
+    );
+    return res.data;
+};
+
+export const getMessages = async () => {
+    const res = await axiosInstance.get(
+      `/control-messages`
+    );
+    return res.data;
+};
