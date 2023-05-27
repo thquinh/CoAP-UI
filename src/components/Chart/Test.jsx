@@ -47,6 +47,7 @@ const Sensors = ({id, delay, on}) => {
 	}
 
     useEffect(() => {
+        if (on != false) {
         const eventSource = new EventSource(`http://localhost:9999/api/v1/gateway/${id}/data`)
         console.log(`${id} connect. State: ${on}`);
         let newData
@@ -72,7 +73,7 @@ const Sensors = ({id, delay, on}) => {
         return () => {
             eventSource.close();
             clearInterval(inter);
-        }
+        }}
     },[on])
 
     function CustomizedTick(props) {

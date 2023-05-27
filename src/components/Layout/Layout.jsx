@@ -187,6 +187,7 @@ const Layout = () => {
             message: data.controlMessage
           }
           setMessages((prev) => [...prev, tmp])
+          console.log(data)
         })
         tmp[i].state = state ? "ON" : "OFF"
       }
